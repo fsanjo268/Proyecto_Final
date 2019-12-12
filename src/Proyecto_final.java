@@ -12,7 +12,6 @@ public class Proyecto_final {
 		//creacion de la lista de palabras de prueba y normal
 			String [] palabrasPruebas = {"AAA", "AAAAAA", "BBBBBBBBB", "CCCCC", "DDDDD", "EEEEE", "FFFFF", "GGGGG", "HHHHH", "IIIII", "JJJJJ"};
 			String [] palabras = {"SOLENOIDE", "ORANGUTAN", "RATON", "SOLEDAD", "ARBOL", "QUESO", "ORDENADOR", "FAROLA", "PAPEL", "CASA", "CARABINA"};
-		//creacion de la matriz 10x10 junto a las palabras
 
 
 		//Eleccion del modo de juego
@@ -32,15 +31,16 @@ public class Proyecto_final {
 			if ((car=='p') || (car=='P')) 
 				letras = imprimirMat (palabrasPruebas);//imprime el metodo de la matriz normal
 			else 
-				System.out.println("true");
-				letras = imprimirMat (palabras);//imprime el metoso de la matriz pruebas
-			
-			
-		
-			
+				letras = imprimirMat (palabras);//imprime el metoso de la matriz pruebas			
 	}
+	/*int coordenadas = 4;
+	switch (coordenadas) {
 	
-//método matriz 
+	}*/
+	 
+	
+	
+//metodo matriz 
 	public static char [][] imprimirMat (String[] palabras) {
 		char [][] matriz = NuevaMatriz.nuevaMatriz (10, 10, palabras);
 
