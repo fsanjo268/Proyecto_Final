@@ -9,7 +9,7 @@ public class Proyecto_final {
 			char m =0 , car;
 			String cadena = "p";
 			char [] valor1 = new char[4];
-	    	int x, y, lo;
+	    	int x, y, lo, z;
 	    	char orientacion;
 //creacion de la lista de palabras de prueba y normal
 			String [] palabrasPruebas = {"AAA", "AAAAAA", "BBBBBBBBB", "CCCCC", "DDDDD", "EEEEE", "FFFFF", "GGGGG", "HHHHH", "IIIII", "JJJJJ"};
@@ -45,10 +45,25 @@ public class Proyecto_final {
 						orientacion = valor1[2];
 						lo = Character.getNumericValue(valor1[3]);
 							String word = localizarpalabra(x, y, lo, orientacion, letras);//igualar una variable string para almacenar las palabras al metodo de lectura de palabras 
+							compararpalabras (palabras, word);
 								System.out.println(word);
 								System.out.println("fila " + x + " columna " + y + " orientacion " + orientacion + " longitud " + lo);
 			}
 	}
+//metodo para la comparacion de palabras y poder quitarlas
+	public static boolean compararpalabras(String[] palabras, String word ) {
+			boolean existencia = true;
+		for(int i = 0; i<palabras.length; i++){//bucle para poder leer las palabras de la lista
+				if(palabras[i].equals(word)) {//comparamos la lista de palabras con la palabra encontrada
+					System.out.println("true");
+				}
+				else {
+					System.out.println("no esta la palabra");
+			
+		}
+	} return existencia;
+}			
+
 //metodo para leer las palabras
 	public static String localizarpalabra(int x, int y, int lo, char orientacion, char[][] letras) {
 		String palabra = "";//variable de la palabra leida
