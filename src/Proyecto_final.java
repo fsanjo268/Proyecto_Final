@@ -11,6 +11,7 @@ public class Proyecto_final {
 			char [] valor1 = new char[4];
 	    	int x, y, lo, z;
 	    	char orientacion;
+	    	boolean exist;
 //creacion de la lista de palabras de prueba y normal
 			String [] palabrasPruebas = {"AAA", "AAAAAA", "BBBBBBBBB", "CCCCC", "DDDDD", "EEEEE", "FFFFF", "GGGGG", "HHHHH", "IIIII", "JJJJJ"};
 			String [] palabras = {"SOLENOIDE", "ORANGUTAN", "RATON", "SOLEDAD", "ARBOL", "QUESO", "ORDENADOR", "FAROLA", "PAPEL", "CASA", "CARABINA"};
@@ -45,11 +46,58 @@ public class Proyecto_final {
 						orientacion = valor1[2];
 						lo = Character.getNumericValue(valor1[3]);
 							String word = localizarpalabra(x, y, lo, orientacion, letras);//igualar una variable string para almacenar las palabras al metodo de lectura de palabras 
-							compararpalabras (palabras, word);
+						exist = compararpalabras (palabras, word);
 								System.out.println(word);
 								System.out.println("fila " + x + " columna " + y + " orientacion " + orientacion + " longitud " + lo);
+						if(exist) {//llamar metodo quietar plabras
+							quitarpalabras(x,y,orientacion, lo, letras);
+						}
 			}
 	}
+//Metodo para gravedad y quitar palabras
+	private static char[][] quitarpalabras(int x, int y, char orientacion, int lo, char[][] letras) {
+		switch(orientacion) {
+		case 'N':
+			for(int i = y; i >= 0; i--) {
+				if(i - lo >= 0) {
+					letras[i][x] = letras[i - lo][x];
+				}else {
+					letras[i][x] = '\0';
+				}
+			}break;
+		case 'S':
+			for(int i = y + lo-1; i >= 0; i--) {
+				if(i-lo<= 0) {
+					letras[i][x] = letras[i - lo][x];
+				}else {
+					letras[i][x] = '\0';
+				}
+			}break;
+		case 'W':
+			for(int j = y; j >= 0; j--) {
+				for(int i = x; i>x - lo; i--) {
+					if(j==0) {
+						letras[j][i] = '\0';	
+					}else {
+						letras[j][i]= letras[j - 1][i];
+					}
+				}
+			}break;
+		case'E':
+			for(int j = y; j>=0; j--) {
+				for(int i = x; i <lo + x; i++) {
+					if(j==0){
+						letras[j][i] = '\0';
+					}else {
+						letras [j][i]= letras[j-1][i];
+					}
+				}
+			}break;
+		}
+		newGenerate(letras);
+		return letras;
+	}
+
 //metodo para la comparacion de palabras y poder quitarlas
 	public static boolean compararpalabras(String[] palabras, String word ) {
 			boolean existencia = true;
@@ -59,9 +107,8 @@ public class Proyecto_final {
 				}
 				else {
 					System.out.println("no esta la palabra");
-			
 		}
-	} return existencia;
+	}return existencia;
 }			
 
 //metodo para leer las palabras
