@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Proyecto_final {
@@ -6,12 +7,13 @@ public class Proyecto_final {
 		char[][] letras;
  		Scanner teclado = new Scanner (System.in);
 //variables
-			char m =0 , car;
+			char car;
 			String cadena = "p";
 			char [] valor1 = new char[4];
-	    	int x, y, lo, z;
+	    	int x, y, lo;
 	    	char orientacion;
 	    	boolean exist;
+	    	int con;
 //creacion de la lista de palabras de prueba y normal
 			String [] palabrasPruebas = {"AAA", "AAAAAA", "BBBBBBBBB", "CCCCC", "DDDDD", "EEEEE", "FFFFF", "GGGGG", "HHHHH", "IIIII", "JJJJJ"};
 			String [] palabras = {"SOLENOIDE", "ORANGUTAN", "RATON", "SOLEDAD", "ARBOL", "QUESO", "ORDENADOR", "FAROLA", "PAPEL", "CASA", "CARABINA"};
@@ -31,13 +33,16 @@ public class Proyecto_final {
 			car = cadena.charAt(0);
 			
 		   
-			if ((car=='p') || (car=='P')) 
+			if ((car=='p') || (car=='P')) {
+				System.out.println("las palabras a buscar son: " +Arrays.toString(palabrasPruebas));
 				letras = imprimirMat (palabrasPruebas);//imprime el metodo de la matriz normal
-			else 
+			}else {
+				System.out.println("Las palabras a buscar son: " +Arrays.toString(palabras));
 				letras = imprimirMat (palabras);//imprime el metoso de la matriz pruebas		
-			
+			}
 // bucle para que te pida coordenadas hasta que se acaben las palabras
-			while(true) {
+			while(true) {//bucle principal 
+			while(hayletras(letras)) {//si hay letras entonces se repite el bucle, sino no
 				System.out.println("Inserte coordenadas de columna = x, fila = y, dirección(Norte = N, Sur = S, Este = E, Oeste = W) y longitud de la palabra");
 				String coordenadas = teclado.next();
 					valor1 = leerCoordenadas (coordenadas);// el metodo ( return valor2) se iguala al valor1
@@ -46,16 +51,34 @@ public class Proyecto_final {
 						orientacion = valor1[2];
 						lo = Character.getNumericValue(valor1[3]);
 							String word = localizarpalabra(x, y, lo, orientacion, letras);//igualar una variable string para almacenar las palabras al metodo de lectura de palabras 
-						exist = compararpalabras (palabras, word);
+						exist = compararpalabras (palabras, word);//llamar al metodo leer y comparar palabra
 								System.out.println(word);
 								System.out.println("fila " + x + " columna " + y + " orientacion " + orientacion + " longitud " + lo);
 						if(exist) {//llamar metodo quietar plabras
 							quitarpalabras(x,y,orientacion, lo, letras);
 						}
+			}System.out.println("¿Desea jugar de nuevo? pulse 1");//cuando no haya palabras te pide volver a jugar o no
+			con = teclado.nextInt();
+			if(con==1) {// si tecleas 1, se repite de nuevo el bucle
+				continue;
+			}else {// sino, finaliza el programa
+				System.out.println("gracias por jugar");
+				break;
 			}
 	}
+}			
+//Metodo lectura de casillas para ver si hay huecos o no
+	public static boolean hayletras(char[][] letras) {
+		for(int i = 0; i < letras.length; i++) {//lectura de filas
+			for(int j = 0; j < letras.length; j++) {//lectura de columnas
+			if (letras[i][j] != '\0') {//si hay letras entonces es verdadero
+				return true;
+			}		
+		}
+	}return false;
+}
 //Metodo para gravedad y quitar palabras
-	private static char[][] quitarpalabras(int x, int y, char orientacion, int lo, char[][] letras) {
+	public static char[][] quitarpalabras(int x, int y, char orientacion, int lo, char[][] letras) {
 		switch(orientacion) {
 		case 'N':
 			for(int i = y; i >= 0; i--) {
@@ -67,7 +90,7 @@ public class Proyecto_final {
 			}break;
 		case 'S':
 			for(int i = y + lo-1; i >= 0; i--) {
-				if(i-lo<= 0) {
+				if(i-lo>= 0) {
 					letras[i][x] = letras[i - lo][x];
 				}else {
 					letras[i][x] = '\0';
@@ -94,11 +117,23 @@ public class Proyecto_final {
 				}
 			}break;
 		}
-		newGenerate(letras);
+		nuevaGeneracion(letras);
 		return letras;
 	}
-
-//metodo para la comparacion de palabras y poder quitarlas
+//metodo que vuelva a escribir la matriz despues de la gravedad y eliminar la palabra
+	public static void nuevaGeneracion(char[][] letras) {
+		System.out.println(" |0|1|2|3|4|5|6|7|8|9|");
+		for(int i = 0; i<10; i++) {
+			System.out.print( i + "|" + "");
+			
+			for(int j = 0; j<10; j++) {
+				System.out.print (letras[i][j] + "|");
+			}
+			System.out.println("" + i);		
+		}  
+		System.out.println(" |0|1|2|3|4|5|6|7|8|9|");
+	}
+//metodo para la comparacion de palabras 
 	public static boolean compararpalabras(String[] palabras, String word ) {
 			boolean existencia = true;
 		for(int i = 0; i<palabras.length; i++){//bucle para poder leer las palabras de la lista
